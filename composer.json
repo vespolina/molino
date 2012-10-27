@@ -11,10 +11,19 @@
             "email": "pablodip@gmail.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
-        "php": ">=5.3.2"
+        "php": ">=5.3.2",
+        "symfony/event-dispatcher": "dev-master"
+    },
+    "require-dev": {
+        "doctrine/orm": "2.2.*",
+        "mandango/mandango": "dev-master",
+        "pagerfanta/pagerfanta": "dev-master"
     },
     "autoload": {
-        "psr-0": { "Molino": "src" }
+        "psr-0": { "Molino": ["src", "tests"],
+                   "Model": "tests"
+        }
     }
 }
