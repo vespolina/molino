@@ -2,7 +2,6 @@
 
 namespace Molino\Tests\Doctrine\ODM\MongoDB;
 
-
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\MongoDB\Connection;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -25,8 +24,25 @@ class TestCase extends \PHPUnit_Framework_TestCase
 
         $this->documentManager = DocumentManager::create(new Connection(), $config);
 
-        \Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver::registerAnnotationClasses();
- //       AnnotationRegistry::registerFile(__DIR__.'/../vendor/doctrine-mongodb-odm/lib/Doctrine/ODM/MongoDB/Mapping/Annotations/DoctrineAnnotations.php');
+        AnnotationDriver::registerAnnotationClasses();
+    }
 
+    protected function tearDown()
+    {
+        $this->documentManager->getDocumentCollection('Model\Doctrine\ODM\MongoDB\Article')->drop();
+    }
+
+    protected function loadArticles($nb)
+    {
+        $articles = array();
+        for ($i = 1; $i <= $nb; $i++) {
+            $article = new \Model\Doctrine\ODM\MongoDB\Article();
+            $article->setTitle($i);
+            $this->documentManager->persist($article);
+            $articles[] = $article;
+        }
+        $this->documentManager->flush();
+
+        return $articles;
     }
 }

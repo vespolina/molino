@@ -101,7 +101,7 @@ class MolinoTest extends TestCase
         $id = 10;
         $article = new Article();
 
-        $documentManager = $this->getMockBuilder('Doctrine\ODM\MongoDB\DoctrineManager')
+        $documentManager = $this->getMockBuilder('Doctrine\ODM\MongoDB\DocumentManager')
             ->disableOriginalConstructor()
             ->getMock()
         ;

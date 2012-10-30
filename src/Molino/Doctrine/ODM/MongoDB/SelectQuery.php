@@ -25,26 +25,15 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
     /**
      * {@inheritdoc}
      */
-    protected function configureQueryBuilder(Builder $queryBuilder)
-    {
-        $queryBuilder->select($queryBuilder->getRootAlias());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function fields(array $fields)
     {
-        $rootAlias = $this->getQueryBuilder()->getRootAlias();
         foreach ($fields as &$field) {
             if (!is_string($field)) {
                 throw new \InvalidArgumentException('Fields must be strings.');
             }
-
-            $field = $rootAlias.'.'.$field;
         }
-
-        $this->getQueryBuilder()->select($fields);
+        $fieldList = implode(',', $fields);
+        $this->getQueryBuilder()->select($fieldList);
 
         return $this;
     }
@@ -57,8 +46,7 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
         if (!in_array($order, array('asc', 'desc'))) {
             throw new \InvalidArgumentException(sprintf('The order "%s" is not valid.', $order));
         }
-
-        $this->getQueryBuilder()->orderBy($this->getQueryBuilder()->getRootAlias().'.'.$field, strtoupper($order));
+        $this->getQueryBuilder()->sort($field, $order);
 
         return $this;
     }
@@ -68,7 +56,7 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
      */
     public function limit($limit)
     {
-        $this->getQueryBuilder()->setMaxResults($limit);
+        $this->getQueryBuilder()->limit($limit);
 
         return $this;
     }
@@ -78,7 +66,7 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
      */
     public function skip($skip)
     {
-        $this->getQueryBuilder()->setFirstResult($skip);
+        $this->getQueryBuilder()->skip($skip);
 
         return $this;
     }
@@ -88,7 +76,7 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
      */
     public function all()
     {
-        return $this->getQueryBuilder()->getQuery()->execute();
+        return $this->getQueryBuilder()->getQuery()->execute()->toArray();
     }
 
     /**
@@ -96,24 +84,17 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
      */
     public function one()
     {
-        $this->limit(1);
-
-        return $this->getQueryBuilder()->getQuery()->getOneOrNullResult();
+        return $this->getQueryBuilder()->getQuery()->getSingleResult();
     }
 
     public function count()
     {
-        $this->getQueryBuilder()->select(sprintf('COUNT(%s.id) as nb', $this->getQueryBuilder()->getRootAlias()));
-        $this->limit(1);
-
-        $result = $this->getQueryBuilder()->getQuery()->getScalarResult();
-
-        return (int) $result[0]['nb'];
+        return $this->getQueryBuilder()->getQuery()->count();
     }
 
     public function getIterator()
     {
-        return new \ArrayIterator($this->all());
+        return $this->getQueryBuilder()->getQuery()->execute();
     }
 
     /**

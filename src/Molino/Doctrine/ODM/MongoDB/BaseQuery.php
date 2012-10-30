@@ -27,7 +27,7 @@ abstract class BaseQuery extends BaseBaseQuery
     /**
      * Returns the query builder.
      *
-     * @return \Doctrine\ODM\MongoDB\Query\Builder The query builder.
+     * @return Doctrine\ODM\MongoDB\Query\Builder The query builder.
      */
     public function getQueryBuilder()
     {
