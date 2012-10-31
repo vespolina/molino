@@ -35,7 +35,7 @@ class UpdateQuery extends BaseQuery implements UpdateQueryInterface
      */
     public function set($field, $value)
     {
-        $this->getQueryBuilder()->set($field, $value);
+        $this->getQueryBuilder()->field($field)->set($value);
 
         return $this;
     }
@@ -45,7 +45,7 @@ class UpdateQuery extends BaseQuery implements UpdateQueryInterface
      */
     public function inc($field, $inc)
     {
-        $this->getQueryBuilder()->inc($field, $inc);
+        $this->getQueryBuilder()->field($field)->inc($inc);
 
         return $this;
     }

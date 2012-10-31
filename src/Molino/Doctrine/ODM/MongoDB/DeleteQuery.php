@@ -26,7 +26,7 @@ class DeleteQuery extends BaseQuery implements DeleteQueryInterface
      */
     protected function configureQueryBuilder(Builder $queryBuilder)
     {
-        $queryBuilder->delete();
+        $queryBuilder->remove();
     }
 
     /**

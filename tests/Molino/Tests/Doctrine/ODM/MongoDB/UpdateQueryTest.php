@@ -19,21 +19,18 @@ class UpdateQueryTest extends TestCase
         $this->query = new UpdateQuery($this->molino, $this->modelClass);
     }
 
-    public function testConfigureQueryBuilder()
-    {
-        $this->assertSame(QueryBuilder::UPDATE, $this->query->getQueryBuilder()->getType());
-    }
-
     public function testSet()
     {
         $this->assertSame($this->query, $this->query->set('title', 'foo'));
-        $this->assertSame(array('$set' => array('title' => 'foo')), $this->query->getNewObject());
+        $query = $this->query->getQueryBuilder()->getQuery()->getQuery();
+        $this->assertSame(array('$set' => array('title' => 'foo')), $query['newObj']);
     }
 
     public function testInc()
     {
         $this->assertSame($this->query, $this->query->inc('age', 1));
-        $this->assertSame(array('$inc' => array('age' => 1)), $this->query->getNewObject());
+        $query = $this->query->getQueryBuilder()->getQuery()->getQuery();
+        $this->assertSame(array('$inc' => array('age' => 1)), $query['newObj']);
     }
 
     public function testExecute()
