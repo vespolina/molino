@@ -58,7 +58,11 @@ abstract class BaseQuery extends BaseBaseQuery
      */
     public function filterEqual($field, $value)
     {
-        $this->andWhere('equals', $field, $value);
+        if (is_object($value)) {
+            $this->getQueryBuilder()->field($field)->references($value);
+        } else {
+            $this->andWhere('equals', $field, $value);
+        }
 
         return $this;
     }

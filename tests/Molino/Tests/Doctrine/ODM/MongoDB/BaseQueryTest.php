@@ -2,6 +2,7 @@
 
 namespace Molino\Tests\Doctrine\ODM\MongoDB;
 
+use Model\Doctrine\ODM\MongoDB\User;
 use Molino\Doctrine\ODM\MongoDB\Molino;
 use Molino\Doctrine\ODM\MongoDB\BaseQuery as OriginalBaseQuery;
 
@@ -33,6 +34,14 @@ class BaseQueryTest extends TestCase
         $this->assertSame($this->query, $this->query->filterEqual('title', 'foo'));
         $query = $this->query->getQueryBuilder()->getQuery()->getQuery();
         $this->assertSame(array('title' => 'foo'), $query['query']);
+    }
+
+    public function testFilterEqualObject()
+    {
+        $user = new User();
+        $this->assertSame($this->query, $this->query->filterEqual('author', $user));
+        $query = $this->query->getQueryBuilder()->getQuery()->getQuery();
+        $this->assertSame(array('author.$id' => null), $query['query']);
     }
 
     public function testFilterNotEqual()
