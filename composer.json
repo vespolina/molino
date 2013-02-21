@@ -1,9 +1,9 @@
 {
-    "name": "pablodip/molino",
+    "name": "vespolina/molino",
     "type": "library",
     "description": "Small and fast library to make reusable tools persistence backend agnostic.",
     "keywords": ["backend"],
-    "homepage": "https://github.com/pablodip/molino",
+    "homepage": "https://github.com/vespolina/molino",
     "license": "MIT",
     "authors": [
         {
