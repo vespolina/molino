@@ -17,7 +17,8 @@
         "symfony/event-dispatcher": "*"
     },
     "require-dev": {
-        "doctrine/orm": "2.2.*",
+        "doctrine/orm": "dev-master",
+        "doctrine/mongodb-odm": "dev-master",
         "mandango/mandango": "dev-master",
         "pagerfanta/pagerfanta": "dev-master"
     },
