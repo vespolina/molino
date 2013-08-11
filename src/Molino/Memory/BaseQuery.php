@@ -39,7 +39,7 @@ abstract class BaseQuery extends BaseBaseQuery
     public function setMolino(MolinoInterface $molino)
     {
         if (!$molino instanceof Molino) {
-            throw new \InvalidArgumentException('The molino must be an instance of Molino\Mandango\Molino.');
+            throw new \InvalidArgumentException('The molino must be an instance of Molino\Memory\Molino.');
         }
 
         parent::setMolino($molino);
