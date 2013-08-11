@@ -16,7 +16,6 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
 
-//        $this->documentManager->getDocumentCollection('Model\Memory\Article')->drop();
     }
 
     protected function loadArticles($nb)
