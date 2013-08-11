@@ -158,7 +158,7 @@ All queries implement a fluent interface:
 
 ## Molinos
 
-Molino comes with two molinos:
+Molino comes with four molinos:
 
 ### Mandango
 
@@ -178,6 +178,25 @@ To work with [Doctrine ORM](http://www.doctrine-project.org/projects/orm):
     $molino = new Molino($entityManager);
     $molino->getName() // doctrine_orm
 
+
+### Doctrine MongoDB ODM
+
+To work with [Doctrine MongoDB ODM](http://www.doctrine-project.org/projects/mongodb-odm.html):
+
+    use Molino\Doctrine\ODM\MongoDB\Molino;
+
+    $molino = new Molino($documentManager);
+    $molino->getName() // doctrine_mongodb_odm
+    
+### Memory
+
+To be used for testing. It requires no mapping or access a database:
+
+    use Molino\Memory\Molino;
+
+    $molino = new Molino();
+    $molino->getName() // memory
+    
 ## Events
 
 You can optionally use events with molinos. In order to do that you have to use the class `EventMolino`, which receives a molino and an event dispatcher. You can use the event molino in a normal way, as it also implements the `MolinoInterface` it simply wraps a molino for use with events.
