@@ -57,7 +57,7 @@ class Molino implements MolinoInterface
     public function save($model)
     {
         $this->documentManager->persist($model);
-        $this->documentManager->flush();
+        $this->documentManager->flush($model);
     }
 
     /**
@@ -74,7 +74,7 @@ class Molino implements MolinoInterface
     public function delete($model)
     {
         $this->documentManager->remove($model);
-        $this->documentManager->flush();
+        $this->documentManager->flush($model);
     }
 
     /**
