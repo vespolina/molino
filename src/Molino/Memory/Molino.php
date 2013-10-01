@@ -45,7 +45,7 @@ class Molino implements MolinoInterface
     {
         $class = get_class($model);
 
-        if (!$id = $model->getId()) {
+        if (!$id = $this->getProperty($model, 'id')) {
             $id = uniqid();
             $this->setProperty($model, 'id', $id);
         }
@@ -112,5 +112,15 @@ class Molino implements MolinoInterface
         $rp->setAccessible(true);
         $rp->setValue($object, $value);
         $rp->setAccessible(false);
+    }
+
+    protected function getProperty($object, $property)
+    {
+        $rp = new \ReflectionProperty($object, $property);
+        $rp->setAccessible(true);
+        $value = $rp->getValue($object);
+        $rp->setAccessible(false);
+
+        return $value;
     }
 }
