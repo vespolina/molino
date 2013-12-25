@@ -157,6 +157,24 @@ abstract class BaseQuery extends BaseBaseQuery
         return $this;
     }
 
+    function filterNear($field, $longitude, $latitude, $distance = null, $unit = 'km')
+    {
+        $conversion = array(
+            'km' => 6371,
+            'kilometer' => 6371,
+            'mi' => 3959,
+            'mile' => 3959,
+        );
+        if ($distance) {
+            $radius = $distance / $conversion[$unit];
+            $this->getQueryBuilder()->field($field)->geoWithinCenterSphere($longitude, $latitude, $radius);
+        } else {
+            $this->getQueryBuilder()->field($field)->near($longitude, $latitude);
+        }
+
+        return $this;
+    }
+
     private function andWhere($comparison, $field, $value)
     {
         $this->getQueryBuilder()->field($field)->$comparison($value);

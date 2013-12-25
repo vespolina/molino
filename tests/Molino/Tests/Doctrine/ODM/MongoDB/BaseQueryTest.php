@@ -124,6 +124,36 @@ class BaseQueryTest extends TestCase
         $this->assertSame(array('age' => array('$lte' => 20)), $query['query']);
     }
 
+    /**
+     * @dataProvider filterNearProvider
+     */
+    public function testFilterNear($unit, $radius)
+    {
+        $this->assertSame($this->query, $this->query->filterNear('coordinates', -122.408, 45.4941, 25, $unit));
+        $query = $this->query->getQueryBuilder()->getQuery()->getQuery();
+        $expected = array(
+            'coordinates' => array(
+                '$geoWithin' => array(
+                    '$centerSphere' => array(
+                        array(-122.408, 45.4941),
+                        $radius
+                    ),
+                )
+            )
+        );
+        $this->assertEquals($expected, $query['query']);
+    }
+
+    public function filterNearProvider()
+    {
+        return array(
+            array('km', 0.0039240307644012),
+            array('kilometer', 0.0039240307644012),
+            array('mi', 0.00631472594089),
+            array('mile', 0.00631472594089),
+        );
+    }
+
     public function testSeveral()
     {
         $this->query
